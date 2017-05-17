@@ -1,12 +1,21 @@
+/**
+ * PRACTICA 14
+ * 
+ * Esta practica nos pide crear un Spline.
+ * 
+ * Clase SplinePanel. Esta clase se encarga de dibujar el spline.
+ * 
+ * @author alu0100888102
+ * @version 1.0
+ * Ángel Hamilton Lopez
+ * alu0100888102@ull.es
+ */
+
 package vista;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.CubicCurve2D;
 
 import javax.swing.*;
 import java.util.*;
@@ -17,6 +26,7 @@ public class SplinePanel extends JPanel {
 	private Spline spline;
 	private int selected;
 	
+	/** Constructor */
 	public SplinePanel(){
 		this.reset();
 		this.addMouseListener(new Mover());
@@ -29,6 +39,7 @@ public class SplinePanel extends JPanel {
 		this.repaint();
 	}
 
+	/** Método para generar puntos aleatorios */
 	public void generateRandom(int cuantity){
 		Random randomGenerator = new Random();
 		for(int i =0; i < cuantity; i++){
@@ -42,6 +53,7 @@ public class SplinePanel extends JPanel {
 		
 	}
 	
+	/** Métodos para cambair el nodo selecionado con las flechas del teclado */
 	public void nextSelect(){
 		setSelected(getSelected() +1);
 		if(getSelected() >= getPuntos().size())
@@ -56,6 +68,7 @@ public class SplinePanel extends JPanel {
 		this.repaint();
 	}
 	
+	/** Método que vuelve el nodo selecionado a donde pinches con el raton */
 	public void moveSelected(int x, int y){
 		if(getPuntos().size() < 1)
 			return;
@@ -82,24 +95,13 @@ public class SplinePanel extends JPanel {
 		this.repaint();
 	}
 	
+	/** Setters y getters */
 	public int getSelected() {
 		return selected;
 	}
 
 	public void setSelected(int selected) {
 		this.selected = selected;
-	}
-
-	public void sprevious(){
-		setSelected(getSelected()-1);
-		if(getSelected() < 0)
-			setSelected(getPuntos().size()-1);
-	}
-	
-	public void snext(){
-		setSelected(getSelected()+1);
-		if(getSelected() >= getPuntos().size())
-			setSelected(0);
 	}
 	
 	public ArrayList<Nodo> getPuntos() {
@@ -118,32 +120,38 @@ public class SplinePanel extends JPanel {
 		this.spline = spline;
 	}
 	
+	/** Método para dibujar */
 	public void paintComponent(Graphics g){	
 		super.paintComponent(g);
 		
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(2));
-		g2.setBackground(Color.LIGHT_GRAY);
 		g.setColor(Color.BLACK);
+		
+		/** Pintamos los Splines. Para cada X entre dos puntos, pintamos una recta entre los valores del spline en X y X+1 */
 		for(int i =0; i< puntos.size()-1; i++){
 			for(int j = getPuntos().get(i).getX(); j < getPuntos().get(i+1).getX(); j++){
 				g.drawLine(j, (int)getSpline().calculateSpline(i, j), j+1, (int)getSpline().calculateSpline(i, j+1));
 			}
 		}
 		
-		
+		/** Pintamos los puntos */
+		int puntorad = 5;
 		for(Nodo punto : getPuntos()){
 			g.setColor(Color.RED);
-			g.fillOval(punto.getX()-5, punto.getY()-5, 10, 10);
+			g.fillOval(punto.getX()-puntorad, punto.getY()-puntorad, puntorad*2, puntorad*2);
 		}
 		
+		/** Pintamos un circulo azul en torno al nodo selecionado */
 		g.setColor(Color.BLUE);
 		if(getPuntos().size() > selected){
 			g2.setStroke(new BasicStroke(3));
-			g.drawOval(getPuntos().get(selected).getX()-10, getPuntos().get(selected).getY()-10, 20, 20);
+			g.drawOval(getPuntos().get(selected).getX()-puntorad*2, getPuntos().get(selected).getY()-puntorad*2, puntorad*4, puntorad*4);
 		}
 	}
 	
+	
+	/** Listener privado */
 	private class Mover implements MouseListener{
 
 		@Override
@@ -164,26 +172,6 @@ public class SplinePanel extends JPanel {
 
 		@Override
 		public void mouseReleased(MouseEvent arg0) {}
-		
-	}
-	
-	private class Selector implements KeyListener{
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			int key = e.getKeyCode();
-	
-			if(key == KeyEvent.VK_RIGHT)
-				nextSelect();
-			if(key == KeyEvent.VK_LEFT)
-				prevSelect();
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {}
-
-		@Override
-		public void keyTyped(KeyEvent e) {}
 		
 	}
 }

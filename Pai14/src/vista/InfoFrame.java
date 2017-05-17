@@ -1,3 +1,17 @@
+/**
+ * PRACTICA 14
+ * 
+ * Esta practica nos pide crear un Spline.
+ * 
+ * Clase InfoFrame. Crea el fame con la información sobre la aplicación.
+ * 
+ * @author alu0100888102
+ * @version 1.0
+ * Ángel Hamilton Lopez
+ * alu0100888102@ull.es
+ */
+
+
 package vista;
 
 import java.awt.BorderLayout;

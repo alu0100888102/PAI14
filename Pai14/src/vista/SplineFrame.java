@@ -1,3 +1,17 @@
+/**
+ * PRACTICA 14
+ * 
+ * Esta practica nos pide crear un Spline.
+ * 
+ * Clase Frame. Contiene dos paneles: Uno con el spline y otro con los botones.
+ * 
+ * @author alu0100888102
+ * @version 1.0
+ * Ángel Hamilton Lopez
+ * alu0100888102@ull.es
+ */
+
+
 package vista;
 
 import java.awt.*;
@@ -12,13 +26,15 @@ public class SplineFrame extends JFrame {
 	private JTextField numero;
 	private JButton info, clear, generar;
 	
+	/** Constructor */
 	public SplineFrame(){
 		this.setLayout(new BorderLayout());
 		this.setFocusable(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(900, 700);
+		
 		panel = new SplinePanel();
 		this.add(panel, BorderLayout.CENTER);
+		
+		/** Key bindings */
 		Action next = new AbstractAction("nextSelect") {
 		    public void actionPerformed(ActionEvent e) {
 		    	getPanel().nextSelect();
@@ -35,26 +51,31 @@ public class SplineFrame extends JFrame {
 		panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"),"nextSelect");
 		panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"),"prevSelect");
 		
+		/** Botones */
 		info = new JButton();
 		clear = new JButton("Clear");
 		generar = new JButton("Generar");
 		numero = new JTextField(10);
 		JPanel buttons = new JPanel();
+		
 		buttons.add(numero);
 		buttons.add(generar);
 		buttons.add(clear);
 		buttons.add(info);
+		
 		this.add(buttons, BorderLayout.SOUTH);
 		ButtonListener listener = new ButtonListener();
 		info.addActionListener(listener);
 		clear.addActionListener(listener);
 		generar.addActionListener(listener);
+		
 		info.setIcon(new ImageIcon("assets/info.png"));
 		info.setBounds(0, 0, 100, 100);
 		info.setMargin(new Insets(0, 0, 0, 0));
 		info.setBorder(null);
 	}
 
+	/** Setters y getters */
 	public SplinePanel getPanel() {
 		return panel;
 	}
@@ -95,6 +116,7 @@ public class SplineFrame extends JFrame {
 		this.generar = generar;
 	}
 
+	/** Listener privados */
 	private class ButtonListener implements ActionListener{
 		
 		public void actionPerformed(ActionEvent e) {

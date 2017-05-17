@@ -1,3 +1,17 @@
+/**
+ * PRACTICA 14
+ * 
+ * Esta practica nos pide crear un Spline.
+ * 
+ * Clase Spline. Representa el spline y da la coordenada y para cada x dentro del mismo.
+ * 
+ * @author alu0100888102
+ * @version 1.0
+ * Ángel Hamilton Lopez
+ * alu0100888102@ull.es
+ */
+
+
 package modelo;
 
 import java.util.*;
@@ -5,6 +19,7 @@ import java.util.*;
 public class Spline {
 	private ArrayList<Nodo> puntos;
 
+	/** Constructores */
 	public Spline(){
 		setPuntos(new ArrayList<Nodo>());
 	}
@@ -12,6 +27,7 @@ public class Spline {
 		setPuntos(puntos);
 	}
 	
+	/** Setters y geters */
 	public ArrayList<Nodo> getPuntos() {
 		return puntos;
 	}
@@ -24,6 +40,7 @@ public class Spline {
 		return getPuntos().get(index);
 	}
 	
+	/** Método que calcula el valor x del spline i */
 	public double calculateSpline(int i, double x){
 		double x1 = getPunto(i).getX();
 		double x2 = getPunto(i+1).getX();
@@ -32,6 +49,7 @@ public class Spline {
 		return calculate(x1, x2, y1, y2, x);
 	}
 	
+	/** Método que implementa las ecuaciones */
 	public static double calculate(double x1, double x2, double y1, double y2, double x){
 		double k1 = 3;
 		double k2 = 2;
